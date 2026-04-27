@@ -1,201 +1,253 @@
-/* main.js — animations, menu, theme, form handling, modal video */
 (() => {
-  // Helpers
-  const $ = (s, root = document) => root.querySelector(s);
-  const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-  // Set current year
-  $('#year') && ($('#year').textContent = new Date().getFullYear());
+  const year = $('#year');
+  if (year) year.textContent = new Date().getFullYear();
 
-  // Menu toggle (mobile, accessible, fixes)
   const navToggle = $('#nav-toggle');
   const menu = $('#menu');
+
   if (navToggle && menu) {
-    navToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = menu.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) {
-        // Focus first link for accessibility
-        const firstLink = menu.querySelector('a');
-        firstLink && firstLink.focus();
-      }
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!menu.contains(e.target) && !navToggle.contains(e.target) && menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    // Close with Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.focus();
-      }
-    });
-
-    // Close when selecting a link
-    $$('#menu a').forEach(a => a.addEventListener('click', () => {
+    const closeMenu = () => {
       menu.classList.remove('open');
       navToggle.setAttribute('aria-expanded', 'false');
-    }));
+    };
+
+    navToggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = menu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && !navToggle.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMenu();
+    });
+
+    $$('#menu a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
   }
 
-  // Single light theme — no theme toggle needed
-
-  // Reveal on scroll
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in-view');
-          obs.unobserve(e.target);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
         }
       });
-    }, {threshold: 0.12});
-    revealEls.forEach(el => obs.observe(el));
+    }, { threshold: 0.14 });
+
+    revealEls.forEach((el) => observer.observe(el));
   } else {
-    revealEls.forEach(el => el.classList.add('in-view'));
+    revealEls.forEach((el) => el.classList.add('in-view'));
   }
 
-  // Counters
   const counters = $$('[data-count]');
-  const runCounter = (el, to) => {
-    const start = 0, duration = 1200;
-    let startTime = null;
-    const step = (t) => {
-      if (!startTime) startTime = t;
-      const progress = Math.min((t - startTime) / duration, 1);
-      el.textContent = Math.floor(progress * (to - start) + start);
+  const runCounter = (el) => {
+    const target = Number.parseInt(el.dataset.count || el.textContent, 10) || 0;
+    const duration = 1100;
+    const start = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round(target * progress);
       if (progress < 1) requestAnimationFrame(step);
     };
+
     requestAnimationFrame(step);
   };
-  if (counters.length && 'IntersectionObserver' in window) {
-    const obsC = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const to = parseInt(e.target.getAttribute('data-count'), 10) || parseInt(e.target.textContent, 10) || 0;
-          runCounter(e.target, to);
-          obsC.unobserve(e.target);
+
+  if ('IntersectionObserver' in window && counters.length) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          counterObserver.unobserve(entry.target);
         }
       });
-    }, {threshold: 0.4});
-    counters.forEach(c => obsC.observe(c));
+    }, { threshold: 0.45 });
+
+    counters.forEach((counter) => counterObserver.observe(counter));
   } else {
-    counters.forEach(c => runCounter(c, parseInt(c.getAttribute('data-count'), 10) || 0));
+    counters.forEach(runCounter);
   }
 
-  // Contact form — sends to Formspree by default; fallback to mailto if not configured
-  const contactForm = $('#contact-form');
-  const statusEl = $('#form-status');
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      statusEl.textContent = 'Envoi en cours…';
-      const endpoint = contactForm.dataset.endpoint || '';
-      const formData = new FormData(contactForm);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Basic client-side validation (HTML handles required, but double-check)
-      const email = formData.get('email') || '';
-      if (!email || !email.includes('@')) {
-        statusEl.textContent = 'Adresse email invalide.';
+  $$('[data-carousel]').forEach((carousel) => {
+    const track = $('.rail-track', carousel);
+    if (!track) return;
+
+    const scrollNext = () => {
+      const firstItem = track.firstElementChild;
+      if (!firstItem) return;
+
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      const step = firstItem.getBoundingClientRect().width + gap;
+      const endReached = track.scrollLeft + track.clientWidth >= track.scrollWidth - step * 0.45;
+
+      track.scrollTo({
+        left: endReached ? 0 : track.scrollLeft + step,
+        behavior: reducedMotion ? 'auto' : 'smooth'
+      });
+    };
+
+    let timer = null;
+    const start = () => {
+      if (reducedMotion || timer) return;
+      timer = window.setInterval(scrollNext, 4200);
+    };
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    };
+
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+    start();
+  });
+
+  $$('[data-carousel-prev], [data-carousel-next]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.dataset.carouselPrev || button.dataset.carouselNext;
+      const track = document.getElementById(targetId);
+      const firstItem = track && track.firstElementChild;
+      if (!track || !firstItem) return;
+
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      const step = firstItem.getBoundingClientRect().width + gap;
+      const direction = button.dataset.carouselPrev ? -1 : 1;
+
+      track.scrollBy({
+        left: step * direction,
+        behavior: reducedMotion ? 'auto' : 'smooth'
+      });
+    });
+  });
+
+  $$('[data-expand-target]').forEach((button) => {
+    const target = document.getElementById(button.dataset.expandTarget);
+    if (!target) return;
+
+    const defaultText = button.textContent;
+    button.addEventListener('click', () => {
+      const isHidden = target.hasAttribute('hidden');
+      target.toggleAttribute('hidden', !isHidden);
+      button.setAttribute('aria-expanded', String(isHidden));
+      button.textContent = isHidden ? 'Réduire' : defaultText;
+
+      if (isHidden) {
+        target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  $$('.video-embed').forEach((embed) => {
+    const playButton = $('.play-overlay', embed);
+    if (!playButton) return;
+
+    const loadVideo = () => {
+      const videoId = embed.dataset.videoId;
+      const title = embed.dataset.title || 'Vidéo';
+      const videoUrl = embed.dataset.url;
+      if (!videoId) return;
+
+      if (window.location.protocol === 'file:') {
+        if (videoUrl) window.open(videoUrl, '_blank', 'noopener');
         return;
       }
 
+      const params = new URLSearchParams({
+        autoplay: '1',
+        enablejsapi: '1',
+        rel: '0',
+        modestbranding: '1',
+        playsinline: '1'
+      });
+
+      if (window.location.origin && window.location.origin !== 'null') {
+        params.set('origin', window.location.origin);
+      }
+
+      const iframe = document.createElement('iframe');
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'eager';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+
+      embed.replaceChildren(iframe);
+      iframe.focus();
+    };
+
+    playButton.addEventListener('click', loadVideo);
+  });
+
+  const copyButton = $('#copy-email');
+  if (copyButton) {
+    const originalText = copyButton.textContent;
+    const originalBg = copyButton.style.backgroundColor || '';
+    let copyTimer = null;
+
+    const flashButton = (message, color = 'var(--teal)') => {
+      if (copyTimer) {
+        clearTimeout(copyTimer);
+        copyTimer = null;
+      }
+      if (copyButton) {
+        copyButton.textContent = '✓ Copié !';
+        copyButton.style.backgroundColor = color;
+        copyTimer = window.setTimeout(() => {
+          copyButton.textContent = originalText;
+          copyButton.style.backgroundColor = originalBg;
+          copyTimer = null;
+        }, 2000);
+      }
+    };
+
+    copyButton.addEventListener('click', async () => {
+      const email = copyButton.dataset.email;
+      if (!email) return;
+
       try {
-        if (endpoint && !endpoint.includes('YOUR_FORMSPREE_ENDPOINT')) {
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-          });
-          if (res.ok) {
-            contactForm.reset();
-            statusEl.textContent = 'Message envoyé — merci !';
-          } else {
-            const data = await res.json().catch(() => ({}));
-            statusEl.textContent = data.error || 'Erreur lors de l’envoi. Essaie plus tard.';
-          }
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(email);
         } else {
-          // fallback: open mail client (mailto) with subject + body
-          const name = formData.get('name') || '';
-          const subject = formData.get('subject') || 'Contact portfolio';
-          const message = formData.get('message') || '';
-          const mailto = `mailto:ton.email@exemple.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(name + '\n\n' + message)}`;
-          window.location.href = mailto;
-          statusEl.textContent = 'Ouverture du client mail…';
+          const temp = document.createElement('textarea');
+          temp.value = email;
+          temp.setAttribute('readonly', '');
+          temp.style.position = 'fixed';
+          temp.style.left = '-9999px';
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand('copy');
+          document.body.removeChild(temp);
         }
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = 'Erreur réseau — vérifie ta connexion.';
+        flashButton('Adresse copiée', 'var(--teal)');
+      } catch (error) {
+        flashButton('Erreur lors de la copie', 'var(--red)');
       }
     });
   }
 
-  // Video modal (fix miniature & modal)
-  const videoModal = $('#video-modal');
-  const modalBody = videoModal && $('.modal-body', videoModal);
-  const modalClose = videoModal && $('.modal-close', videoModal);
-  const openVideo = (src) => {
-    if (!videoModal || !modalBody) return;
-    let embedSrc = src;
-    // Support both watch?v= and embed/ URLs
-    let videoId = null;
-    if (src.includes('youtube.com/watch')) {
-      videoId = src.split('v=')[1]?.split('&')[0];
-    } else if (src.includes('youtu.be/')) {
-      videoId = src.split('youtu.be/')[1]?.split('?')[0];
-    } else if (src.includes('youtube.com/embed/')) {
-      videoId = src.split('embed/')[1]?.split('?')[0];
-    }
-    if (videoId) {
-      embedSrc = `https://www.youtube.com/embed/${videoId}`;
-    }
-    // Si pas d'ID, ouvrir sur YouTube
-    if (!videoId) {
-      window.open(src, '_blank');
-      return;
-    }
-    videoModal.setAttribute('aria-hidden', 'false');
-    modalBody.innerHTML = `<iframe src="${embedSrc}?autoplay=1" title="Vidéo" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:56vw;max-height:60vh;min-height:240px;"></iframe>`;
-    modalClose && modalClose.focus();
-  };
-  const closeVideo = () => {
-    if (!videoModal || !modalBody) return;
-    videoModal.setAttribute('aria-hidden', 'true');
-    modalBody.innerHTML = '';
-  };
-  // attach to cards
-  $$('.video-card').forEach(card => {
-    card.addEventListener('click', () => openVideo(card.dataset.video));
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openVideo(card.dataset.video);
-      }
+  // Smooth 'Retour en haut' handler for any page (prevents navigation and scrolls to top)
+  $$('.back-to-top').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
-  modalClose && modalClose.addEventListener('click', closeVideo);
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeVideo();
-  });
-  if (videoModal) {
-    videoModal.addEventListener('click', (e) => {
-      if (e.target === videoModal) closeVideo();
-    });
-  }
-
-  // Small polish: card hover
-  $$('.card').forEach(c => {
-    c.addEventListener('mouseenter', () => c.style.transform = 'translateY(-6px)');
-    c.addEventListener('mouseleave', () => c.style.transform = '');
-  });
-
 })();
