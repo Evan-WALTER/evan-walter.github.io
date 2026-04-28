@@ -37,13 +37,46 @@
     </div>
   </header>
 
-  <main id="main" class="site-main">
-    <section class="works">
-      <div class="container section-top">
-        <div>
+  <main id="main" class="site-main articles-page">
+    <section class="articles-hero">
+      <div class="container articles-hero-grid">
+        <div class="articles-hero-copy">
           <p class="eyebrow">Articles</p>
-          <h2>Tous les articles</h2>
+          <h1>Tous les articles</h1>
+          <p>Une sélection de papiers, interviews et formats explicatifs publiés autour du football, de ses compétitions et de ses acteurs.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#articles-list">Parcourir les articles</a>
+            <a class="btn btn-outline" href="index.html#articles">Retour au portfolio</a>
+          </div>
         </div>
+
+        <aside class="articles-hero-panel" aria-label="Repères éditoriaux">
+          <p class="panel-label">Repères</p>
+          <dl class="article-metrics">
+            <div>
+              <dt>7</dt>
+              <dd>publications</dd>
+            </div>
+            <div>
+              <dt>5</dt>
+              <dd>formats</dd>
+            </div>
+            <div>
+              <dt>2025</dt>
+              <dd>année couverte</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section id="articles-list" class="works articles-list">
+      <div class="container section-top articles-toolbar">
+        <div>
+          <p class="eyebrow">Archives</p>
+          <h2>Publications récentes</h2>
+        </div>
+        <p class="articles-count">Articles 1-6 sur 7</p>
       </div>
 
       <div class="container">
@@ -147,6 +180,7 @@
 
       function renderPage(page) {
         const grid = document.getElementById('articles-grid');
+        const count = document.querySelector('.articles-count');
         grid.innerHTML = '';
         const start = (page - 1) * pageSize;
         const end = start + pageSize;
@@ -154,22 +188,67 @@
 
         items.forEach(a => {
           const article = document.createElement('article');
-          article.className = 'card';
+          article.className = 'card article-card';
 
-          const imgHtml = a.image ? `<img src="${a.image}" alt="${a.alt || ''}" loading="lazy">` : '';
+          const media = document.createElement('a');
+          media.className = 'article-media';
+          media.href = a.link;
+          media.target = '_blank';
+          media.rel = 'noopener';
+          media.setAttribute('aria-label', `Lire ${a.title}`);
 
-          article.innerHTML = `
-            ${imgHtml}
-            <div class="card-body">
-              <p class="meta"><span>${a.category}</span> - <time datetime="${a.date}">${a.dateLabel}</time></p>
-              <h3>${a.title}</h3>
-              <p>${a.excerpt || ''}</p>
-              <a class="card-link" href="${a.link}" target="_blank" rel="noopener">Lire l'article</a>
-            </div>
-          `;
+          if (a.image) {
+            const image = document.createElement('img');
+            image.src = a.image;
+            image.alt = a.alt || '';
+            image.loading = 'lazy';
+            media.appendChild(image);
+          } else {
+            const placeholder = document.createElement('div');
+            const label = document.createElement('span');
+            placeholder.className = 'article-placeholder';
+            placeholder.setAttribute('aria-hidden', 'true');
+            label.textContent = a.category;
+            placeholder.appendChild(label);
+            media.appendChild(placeholder);
+          }
+
+          const body = document.createElement('div');
+          body.className = 'card-body';
+
+          const meta = document.createElement('p');
+          const category = document.createElement('span');
+          const time = document.createElement('time');
+          meta.className = 'meta';
+          category.textContent = a.category;
+          time.dateTime = a.date;
+          time.textContent = a.dateLabel;
+          meta.append(category, ' - ', time);
+
+          const title = document.createElement('h3');
+          title.textContent = a.title;
+
+          const excerpt = document.createElement('p');
+          excerpt.textContent = a.excerpt || '';
+
+          const link = document.createElement('a');
+          link.className = 'card-link';
+          link.href = a.link;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.textContent = "Lire l'article";
+
+          body.append(meta, title, excerpt, link);
+          article.append(media, body);
 
           grid.appendChild(article);
         });
+
+        if (count) {
+          const first = start + 1;
+          const last = Math.min(ARTICLES.length, end);
+          count.textContent = `Articles ${first}-${last} sur ${ARTICLES.length}`;
+        }
 
         renderPagination();
       }
@@ -178,12 +257,18 @@
         const nav = document.getElementById('articles-pagination');
         nav.innerHTML = '';
 
+        function goToPage(page) {
+          if (page === currentPage || page < 1 || page > totalPages) return;
+          currentPage = page;
+          renderPage(currentPage);
+        }
+
         const prev = document.createElement('button');
         prev.className = 'btn';
         prev.textContent = 'Précédent';
         prev.disabled = currentPage === 1;
         prev.addEventListener('click', () => {
-          if (currentPage > 1) { currentPage--; renderPage(currentPage); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+          goToPage(currentPage - 1);
         });
         nav.appendChild(prev);
 
@@ -191,8 +276,11 @@
           const btn = document.createElement('button');
           btn.className = 'btn';
           if (i === currentPage) btn.classList.add('current');
+          if (i === currentPage) btn.setAttribute('aria-current', 'page');
           btn.textContent = i;
-          btn.addEventListener('click', () => { currentPage = i; renderPage(currentPage); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+          btn.addEventListener('click', () => {
+            goToPage(i);
+          });
           nav.appendChild(btn);
         }
 
@@ -201,7 +289,7 @@
         next.textContent = 'Suivant';
         next.disabled = currentPage === totalPages;
         next.addEventListener('click', () => {
-          if (currentPage < totalPages) { currentPage++; renderPage(currentPage); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+          goToPage(currentPage + 1);
         });
         nav.appendChild(next);
       }

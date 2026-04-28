@@ -115,10 +115,10 @@
           <h2>Dernières publications</h2>
         </div>
         <div class="section-actions">
-          <button class="icon-btn" type="button" data-carousel-prev="articles-track" aria-label="Article précédent">
+          <button class="icon-btn carousel-control" type="button" data-carousel-prev="articles-track" aria-controls="articles-track" aria-label="Article précédent">
             <span aria-hidden="true">‹</span>
           </button>
-          <button class="icon-btn" type="button" data-carousel-next="articles-track" aria-label="Article suivant">
+          <button class="icon-btn carousel-control" type="button" data-carousel-next="articles-track" aria-controls="articles-track" aria-label="Article suivant">
             <span aria-hidden="true">›</span>
           </button>
           <a class="btn btn-outline" href="articles.html">Voir plus</a>
@@ -126,8 +126,9 @@
       </div>
 
       <div class="container">
-        <div class="rail" data-carousel>
-          <div id="articles-track" class="rail-track">
+        <div class="article-carousel" data-carousel data-carousel-autoplay="4500" data-carousel-singular="Article" data-carousel-plural="Articles" data-carousel-dot-label="Afficher les articles à partir de l'article">
+          <div class="rail" aria-label="Articles récents">
+            <div id="articles-track" class="rail-track" tabindex="0">
             <article class="card">
               <img src="https://media.psg.fr/image/upload/w_1921,c_fill,g_auto,ar_3:2/f_avif,q_75/_am29025_q5d5ph" alt="Marquinhos en interview" loading="lazy">
               <div class="card-body">
@@ -167,6 +168,11 @@
                 <a class="card-link" href="https://www.psg.fr/content/le-programme-de-la-semaine-internationale" target="_blank" rel="noopener">Lire l'article</a>
               </div>
             </article>
+            </div>
+          </div>
+          <div class="carousel-footer">
+            <p class="carousel-status" aria-live="polite">Articles récents</p>
+            <div class="carousel-dots" aria-label="Navigation des articles"></div>
           </div>
         </div>
       </div>
@@ -205,39 +211,47 @@
           <h3>Vidéos réseaux sociaux</h3>
         </div>
 
-        <div class="shorts-grid">
-          <article class="short-card">
-            <div class="video-embed video-embed-portrait" data-video-id="n7Axl2F3_qU" data-title="Kaïs, grand supporter de Marseille" data-url="https://www.youtube.com/shorts/n7Axl2F3_qU">
-              <img src="./images/short_kais.png" alt="Miniature de la vidéo Kaïs, grand supporter de Marseille" loading="lazy">
-              <button class="play-overlay" type="button" aria-label="Lire la vidéo Kaïs, grand supporter de Marseille">
-                <span aria-hidden="true">▶</span>
-              </button>
-            </div>
-            <h4>Kaïs, 8 ans, grand supporter de Marseille</h4>
-            <a class="video-fallback" href="https://www.youtube.com/shorts/n7Axl2F3_qU" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
-          </article>
+        <div class="video-carousel vertical-video-carousel" data-carousel data-carousel-autoplay="5200" data-carousel-singular="Vidéo" data-carousel-plural="Vidéos" data-carousel-dot-label="Afficher les vidéos à partir de la vidéo">
+          <div class="rail" aria-label="Vidéos réseaux sociaux">
+            <div id="shorts-track" class="rail-track shorts-track" tabindex="0">
+              <article class="short-card" data-carousel-item>
+                <div class="video-embed video-embed-portrait" data-video-id="n7Axl2F3_qU" data-title="Kaïs, grand supporter de Marseille" data-url="https://www.youtube.com/shorts/n7Axl2F3_qU">
+                  <img src="./images/short_kais.png" alt="Miniature de la vidéo Kaïs, grand supporter de Marseille" loading="lazy">
+                  <button class="play-overlay" type="button" aria-label="Lire la vidéo Kaïs, grand supporter de Marseille">
+                    <span aria-hidden="true">▶</span>
+                  </button>
+                </div>
+                <h4>Kaïs, 8 ans, grand supporter de Marseille</h4>
+                <a class="video-fallback" href="https://www.youtube.com/shorts/n7Axl2F3_qU" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+              </article>
 
-          <article class="short-card">
-            <div class="video-embed video-embed-portrait" data-video-id="28LAye9Mpcw" data-title="Le nouveau maillot Capitolium" data-url="https://www.youtube.com/shorts/28LAye9Mpcw">
-              <img src="./images/short_toulouse.png" alt="Miniature de la vidéo Le nouveau maillot Capitolium" loading="lazy">
-              <button class="play-overlay" type="button" aria-label="Lire la vidéo Le nouveau maillot Capitolium">
-                <span aria-hidden="true">▶</span>
-              </button>
-            </div>
-            <h4>Le nouveau maillot Capitolium</h4>
-            <a class="video-fallback" href="https://www.youtube.com/shorts/28LAye9Mpcw" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
-          </article>
+              <article class="short-card" data-carousel-item>
+                <div class="video-embed video-embed-portrait" data-video-id="28LAye9Mpcw" data-title="Le nouveau maillot Capitolium" data-url="https://www.youtube.com/shorts/28LAye9Mpcw">
+                  <img src="./images/short_toulouse.png" alt="Miniature de la vidéo Le nouveau maillot Capitolium" loading="lazy">
+                  <button class="play-overlay" type="button" aria-label="Lire la vidéo Le nouveau maillot Capitolium">
+                    <span aria-hidden="true">▶</span>
+                  </button>
+                </div>
+                <h4>Le nouveau maillot Capitolium</h4>
+                <a class="video-fallback" href="https://www.youtube.com/shorts/28LAye9Mpcw" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+              </article>
 
-          <article class="short-card">
-            <div class="video-embed video-embed-portrait" data-video-id="7XzrwSlrxM0" data-title="Trente tonnes de pommes de terre devant l'Assemblée nationale" data-url="https://www.youtube.com/shorts/7XzrwSlrxM0">
-              <img src="./images/short_potato.png" alt="Miniature du reportage court devant l'Assemblée nationale" loading="lazy">
-              <button class="play-overlay" type="button" aria-label="Lire le reportage court devant l'Assemblée nationale">
-                <span aria-hidden="true">▶</span>
-              </button>
+              <article class="short-card" data-carousel-item>
+                <div class="video-embed video-embed-portrait" data-video-id="7XzrwSlrxM0" data-title="Trente tonnes de pommes de terre devant l'Assemblée nationale" data-url="https://www.youtube.com/shorts/7XzrwSlrxM0">
+                  <img src="./images/short_potato.png" alt="Miniature du reportage court devant l'Assemblée nationale" loading="lazy">
+                  <button class="play-overlay" type="button" aria-label="Lire le reportage court devant l'Assemblée nationale">
+                    <span aria-hidden="true">▶</span>
+                  </button>
+                </div>
+                <h4>Reportage court devant l'Assemblée nationale</h4>
+                <a class="video-fallback" href="https://www.youtube.com/shorts/7XzrwSlrxM0" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+              </article>
             </div>
-            <h4>Reportage court devant l'Assemblée nationale</h4>
-            <a class="video-fallback" href="https://www.youtube.com/shorts/7XzrwSlrxM0" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
-          </article>
+          </div>
+          <div class="carousel-footer">
+            <p class="carousel-status" aria-live="polite">Vidéos récentes</p>
+            <div class="carousel-dots" aria-label="Navigation des vidéos"></div>
+          </div>
         </div>
       </div>
 
@@ -246,23 +260,31 @@
           <h3>Vidéos reportage</h3>
         </div>
 
-        <div class="report-grid">
-          <article class="report-card">
-            <div class="video-frame">
-              <div class="video-embed video-embed-landscape" data-video-id="vNN1QV-JLxQ" data-title="Immersion avec les U19 parisiens" data-url="https://www.youtube.com/watch?v=vNN1QV-JLxQ">
-                <img src="https://i.ytimg.com/vi/vNN1QV-JLxQ/hqdefault.jpg" alt="Miniature du reportage Immersion avec les U19 parisiens" loading="lazy">
-                <button class="play-overlay" type="button" aria-label="Lire le reportage Immersion avec les U19 parisiens">
-                  <span aria-hidden="true">▶</span>
-                </button>
-              </div>
+        <div class="video-carousel report-carousel" data-carousel data-carousel-autoplay="6200" data-carousel-singular="Reportage" data-carousel-plural="Reportages" data-carousel-dot-label="Afficher les reportages à partir du reportage">
+          <div class="rail" aria-label="Vidéos reportage">
+            <div id="reports-track" class="rail-track reports-track" tabindex="0">
+              <article class="report-card" data-carousel-item>
+                <div class="video-frame">
+                  <div class="video-embed video-embed-landscape" data-video-id="vNN1QV-JLxQ" data-title="Immersion avec les U19 parisiens" data-url="https://www.youtube.com/watch?v=vNN1QV-JLxQ">
+                    <img src="https://i.ytimg.com/vi/vNN1QV-JLxQ/hqdefault.jpg" alt="Miniature du reportage Immersion avec les U19 parisiens" loading="lazy">
+                    <button class="play-overlay" type="button" aria-label="Lire le reportage Immersion avec les U19 parisiens">
+                      <span aria-hidden="true">▶</span>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p class="meta">Reportage - format paysage</p>
+                  <h4>Immersion avec les U19 parisiens</h4>
+                  <p>Un format horizontal pour les reportages et sujets plus longs.</p>
+                  <a class="video-fallback" href="https://www.youtube.com/watch?v=vNN1QV-JLxQ" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+                </div>
+              </article>
             </div>
-            <div>
-              <p class="meta">Reportage - format paysage</p>
-              <h4>Immersion avec les U19 parisiens</h4>
-              <p>Un exemple de lecteur paysage prêt à recevoir les URL de reportages.</p>
-              <a class="video-fallback" href="https://www.youtube.com/watch?v=vNN1QV-JLxQ" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
-            </div>
-          </article>
+          </div>
+          <div class="carousel-footer">
+            <p class="carousel-status" aria-live="polite">Reportage vidéo</p>
+            <div class="carousel-dots" aria-label="Navigation des reportages"></div>
+          </div>
         </div>
       </div>
     </section>

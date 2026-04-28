@@ -87,53 +87,170 @@
     const track = $('.rail-track', carousel);
     if (!track) return;
 
-    const scrollNext = () => {
-      const firstItem = track.firstElementChild;
-      if (!firstItem) return;
+    const cards = $$('[data-carousel-item], .card', track);
+    const dots = $('.carousel-dots', carousel);
+    const status = $('.carousel-status', carousel);
+    if (!cards.length) return;
 
+    const singularLabel = carousel.dataset.carouselSingular || 'Article';
+    const pluralLabel = carousel.dataset.carouselPlural || `${singularLabel}s`;
+    const dotLabel = carousel.dataset.carouselDotLabel || `Afficher les ${pluralLabel.toLowerCase()} à partir du`;
+    const autoplayDelay = Number.parseInt(carousel.dataset.carouselAutoplay || '0', 10);
+    const prevButtons = $$(`[data-carousel-prev="${track.id}"]`);
+    const nextButtons = $$(`[data-carousel-next="${track.id}"]`);
+    let dotButtons = [];
+    let dotCount = 0;
+    let frame = null;
+    let autoplayTimer = null;
+
+    const getStep = () => {
+      const firstItem = cards[0];
       const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
-      const step = firstItem.getBoundingClientRect().width + gap;
-      const endReached = track.scrollLeft + track.clientWidth >= track.scrollWidth - step * 0.45;
+      return firstItem.getBoundingClientRect().width + gap;
+    };
 
+    const getVisibleCount = () => Math.max(1, Math.round(track.clientWidth / getStep()));
+    const getMaxIndex = () => Math.max(0, cards.length - getVisibleCount());
+
+    const scrollToIndex = (index) => {
+      const nextIndex = Math.max(0, Math.min(index, getMaxIndex()));
       track.scrollTo({
-        left: endReached ? 0 : track.scrollLeft + step,
+        left: cards[nextIndex].offsetLeft,
         behavior: reducedMotion ? 'auto' : 'smooth'
       });
     };
 
-    let timer = null;
-    const start = () => {
-      if (reducedMotion || timer) return;
-      timer = window.setInterval(scrollNext, 4200);
-    };
-    const stop = () => {
-      if (timer) window.clearInterval(timer);
-      timer = null;
-    };
+    const getActiveIndex = () => {
+      const scrollLeft = track.scrollLeft;
+      let activeIndex = 0;
 
-    carousel.addEventListener('mouseenter', stop);
-    carousel.addEventListener('mouseleave', start);
-    carousel.addEventListener('focusin', stop);
-    carousel.addEventListener('focusout', start);
-    start();
-  });
-
-  $$('[data-carousel-prev], [data-carousel-next]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const targetId = button.dataset.carouselPrev || button.dataset.carouselNext;
-      const track = document.getElementById(targetId);
-      const firstItem = track && track.firstElementChild;
-      if (!track || !firstItem) return;
-
-      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
-      const step = firstItem.getBoundingClientRect().width + gap;
-      const direction = button.dataset.carouselPrev ? -1 : 1;
-
-      track.scrollBy({
-        left: step * direction,
-        behavior: reducedMotion ? 'auto' : 'smooth'
+      cards.forEach((card, index) => {
+        if (Math.abs(card.offsetLeft - scrollLeft) < Math.abs(cards[activeIndex].offsetLeft - scrollLeft)) {
+          activeIndex = index;
+        }
       });
+
+      return activeIndex;
+    };
+
+    const renderDots = () => {
+      if (!dots) return;
+
+      const nextDotCount = getMaxIndex() + 1;
+      if (nextDotCount === dotCount) return;
+
+      dotCount = nextDotCount;
+      dots.replaceChildren();
+      dotButtons = [];
+
+      for (let index = 0; index < dotCount; index += 1) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot';
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `${dotLabel} ${index + 1}`);
+        dot.addEventListener('click', () => scrollToIndex(index));
+        dots.appendChild(dot);
+        dotButtons.push(dot);
+      }
+    };
+
+    const updateCarousel = () => {
+      frame = null;
+      renderDots();
+
+      const activeIndex = Math.min(getActiveIndex(), getMaxIndex());
+      const visibleCount = getVisibleCount();
+      const maxScroll = track.scrollWidth - track.clientWidth - 2;
+      const atStart = track.scrollLeft <= 2;
+      const atEnd = track.scrollLeft >= maxScroll;
+
+      prevButtons.forEach((button) => {
+        button.disabled = atStart;
+        button.setAttribute('aria-disabled', String(atStart));
+      });
+
+      nextButtons.forEach((button) => {
+        button.disabled = atEnd;
+        button.setAttribute('aria-disabled', String(atEnd));
+      });
+
+      if (status) {
+        const first = activeIndex + 1;
+        const last = Math.min(cards.length, activeIndex + visibleCount);
+        status.textContent = first === last ? `${singularLabel} ${first} sur ${cards.length}` : `${pluralLabel} ${first}-${last} sur ${cards.length}`;
+      }
+
+      dotButtons.forEach((dot, index) => {
+        dot.toggleAttribute('aria-current', index === activeIndex);
+      });
+    };
+
+    const requestUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateCarousel);
+    };
+
+    const stopAutoplay = () => {
+      if (!autoplayTimer) return;
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    };
+
+    const startAutoplay = () => {
+      if (carousel.dataset.carouselPaused === 'true' || reducedMotion || !autoplayDelay || autoplayTimer || getMaxIndex() === 0) return;
+
+      autoplayTimer = window.setInterval(() => {
+        const activeIndex = getActiveIndex();
+        const nextIndex = activeIndex >= getMaxIndex() ? 0 : activeIndex + 1;
+        scrollToIndex(nextIndex);
+      }, autoplayDelay);
+    };
+
+    prevButtons.forEach((button) => {
+      button.addEventListener('click', () => scrollToIndex(getActiveIndex() - 1));
     });
+
+    nextButtons.forEach((button) => {
+      button.addEventListener('click', () => scrollToIndex(getActiveIndex() + 1));
+    });
+
+    track.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollToIndex(getActiveIndex() - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollToIndex(getActiveIndex() + 1);
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        scrollToIndex(0);
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        scrollToIndex(cards.length - 1);
+      }
+    });
+
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+    carousel.addEventListener('focusin', stopAutoplay);
+    carousel.addEventListener('focusout', startAutoplay);
+    carousel.addEventListener('carousel:pause', () => {
+      carousel.dataset.carouselPaused = 'true';
+      stopAutoplay();
+    });
+    carousel.addEventListener('pointerdown', stopAutoplay);
+    carousel.addEventListener('pointerup', startAutoplay);
+    track.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', () => {
+      requestUpdate();
+      stopAutoplay();
+      startAutoplay();
+    });
+    updateCarousel();
+    startAutoplay();
   });
 
   $$('[data-expand-target]').forEach((button) => {
@@ -162,6 +279,9 @@
       const title = embed.dataset.title || 'Vidéo';
       const videoUrl = embed.dataset.url;
       if (!videoId) return;
+
+      const carousel = embed.closest('[data-carousel]');
+      if (carousel) carousel.dispatchEvent(new CustomEvent('carousel:pause'));
 
       if (window.location.protocol === 'file:') {
         if (videoUrl) window.open(videoUrl, '_blank', 'noopener');
