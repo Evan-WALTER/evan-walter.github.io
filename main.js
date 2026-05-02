@@ -54,7 +54,7 @@
   const counters = $$('[data-count]');
   const runCounter = (el) => {
     const target = Number.parseInt(el.dataset.count || el.textContent, 10) || 0;
-    const duration = 1100;
+    const duration = 1800;
     const start = performance.now();
 
     const step = (now) => {
