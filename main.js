@@ -37,14 +37,17 @@
 
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14 }
+    );
 
     revealEls.forEach((el) => observer.observe(el));
   } else {
@@ -67,14 +70,17 @@
   };
 
   if ('IntersectionObserver' in window && counters.length) {
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          runCounter(entry.target);
-          counterObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.45 });
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            runCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
 
     counters.forEach((counter) => counterObserver.observe(counter));
   } else {
@@ -94,7 +100,8 @@
 
     const singularLabel = carousel.dataset.carouselSingular || 'Article';
     const pluralLabel = carousel.dataset.carouselPlural || `${singularLabel}s`;
-    const dotLabel = carousel.dataset.carouselDotLabel || `Afficher les ${pluralLabel.toLowerCase()} à partir du`;
+    const dotLabel =
+      carousel.dataset.carouselDotLabel || `Afficher les ${pluralLabel.toLowerCase()} à partir du`;
     const autoplayDelay = Number.parseInt(carousel.dataset.carouselAutoplay || '0', 10);
     const prevButtons = $$(`[data-carousel-prev="${track.id}"]`);
     const nextButtons = $$(`[data-carousel-next="${track.id}"]`);
@@ -116,7 +123,7 @@
       const nextIndex = Math.max(0, Math.min(index, getMaxIndex()));
       track.scrollTo({
         left: cards[nextIndex].offsetLeft,
-        behavior: reducedMotion ? 'auto' : 'smooth'
+        behavior: reducedMotion ? 'auto' : 'smooth',
       });
     };
 
@@ -125,7 +132,10 @@
       let activeIndex = 0;
 
       cards.forEach((card, index) => {
-        if (Math.abs(card.offsetLeft - scrollLeft) < Math.abs(cards[activeIndex].offsetLeft - scrollLeft)) {
+        if (
+          Math.abs(card.offsetLeft - scrollLeft) <
+          Math.abs(cards[activeIndex].offsetLeft - scrollLeft)
+        ) {
           activeIndex = index;
         }
       });
@@ -177,7 +187,10 @@
       if (status) {
         const first = activeIndex + 1;
         const last = Math.min(cards.length, activeIndex + visibleCount);
-        status.textContent = first === last ? `${singularLabel} ${first} sur ${cards.length}` : `${pluralLabel} ${first}-${last} sur ${cards.length}`;
+        status.textContent =
+          first === last
+            ? `${singularLabel} ${first} sur ${cards.length}`
+            : `${pluralLabel} ${first}-${last} sur ${cards.length}`;
       }
 
       dotButtons.forEach((dot, index) => {
@@ -197,7 +210,14 @@
     };
 
     const startAutoplay = () => {
-      if (carousel.dataset.carouselPaused === 'true' || reducedMotion || !autoplayDelay || autoplayTimer || getMaxIndex() === 0) return;
+      if (
+        carousel.dataset.carouselPaused === 'true' ||
+        reducedMotion ||
+        !autoplayDelay ||
+        autoplayTimer ||
+        getMaxIndex() === 0
+      )
+        return;
 
       autoplayTimer = window.setInterval(() => {
         const activeIndex = getActiveIndex();
@@ -293,7 +313,7 @@
         enablejsapi: '1',
         rel: '0',
         modestbranding: '1',
-        playsinline: '1'
+        playsinline: '1',
       });
 
       if (window.location.origin && window.location.origin !== 'null') {
@@ -302,7 +322,8 @@
 
       const iframe = document.createElement('iframe');
       iframe.title = title;
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       iframe.loading = 'eager';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';

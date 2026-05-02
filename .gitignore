@@ -1,1 +1,7 @@
 TODO.txt
+node_modules/
+dist/
+.prettierignore
+.prettierrc
+package-lock.json
+package.json
