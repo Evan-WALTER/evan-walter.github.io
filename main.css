@@ -795,6 +795,46 @@ button:focus-visible {
   box-shadow: var(--focus);
 }
 
+/* Partners: logo sans fond, centrés et alignés avec les cartes en-dessous */
+.partners-grid .compact-card {
+  background: transparent;
+  border: 1px solid var(--line); /* enlever si vous ne voulez pas de cadre */
+  box-shadow: none;
+  padding: 0.6rem;
+  min-height: 84px; /* ajuste la hauteur pour s'aligner visuellement avec les cases */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partners-grid .compact-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.25rem;
+}
+
+.partners-grid img {
+  max-width: 160px;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: transparent; /* utile pour SVG/PNG transparents */
+}
+
+/* espace vertical pour mieux séparer du bloc suivant */
+#partners { margin-bottom: 1.2rem; }
+
+@media (max-width: 720px) {
+  .partners-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 430px) {
+  .partners-grid { grid-template-columns: 1fr; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
