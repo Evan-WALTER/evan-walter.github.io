@@ -585,7 +585,7 @@ h2 {
 }
 
 .video-section + .video-section {
-  margin-top: 1.5rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
 .subsection-heading {
@@ -827,7 +827,19 @@ button:focus-visible {
 }
 
 /* espace vertical pour mieux séparer du bloc suivant */
-#partners { margin-bottom: 1.2rem; }
+#about-more {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+#partners {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 0;
+}
+
+/* espace sous la section partenaires avant le pied du bloc about */
+.about > #partners:last-child {
+  margin-bottom: clamp(0.5rem, 2vw, 1.5rem);
+}
 
 @media (max-width: 720px) {
   .partners-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1242,5 +1254,15 @@ button:focus-visible {
 
   .pagination .btn {
     width: 100%;
+  }
+
+  /* Keep subsection carousel nav buttons side by side (never stacked) */
+  .subsection-heading .section-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .subsection-heading .section-actions .icon-btn {
+    width: 44px;
   }
 }
