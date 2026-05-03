@@ -257,6 +257,18 @@
             alt: 'Ousmane Dembélé : « Je me bats pour ce maillot ! »',
             link: 'https://www.psg.fr/content/ousmane-dembele-je-me-bats-pour-ce-maillot',
           },
+          {
+            category: 'Article',
+            date: '2025-06-10',
+            dateLabel: '10 juin 2025',
+            title: 'Le Portugal remporte sa deuxième Ligue des Nations !',
+            excerpt:
+              "Le Portugal s'est imposé lors de la séance de tirs au but (2-2, 5-3 t.a.b) face à l'Espagne en finale de l'UEFA Nations League.",
+            image:
+              'https://media.psg.fr/image/upload/w_1921,c_fill,g_auto,ar_3:2/f_avif,q_75/gettyimages-2219217712_q7w4og',
+            alt: 'Le Portugal remporte sa deuxième Ligue des Nations !',
+            link: 'https://www.psg.fr/content/le-portugal-remporte-sa-deuxieme-ligue-des-nations',
+          },
         ];
 
         const pageSize = 6;
@@ -264,9 +276,11 @@
         let currentCategory = 'all';
 
         function getFilteredArticles() {
-          return currentCategory === 'all'
-            ? ARTICLES
-            : ARTICLES.filter((a) => a.category === currentCategory);
+          const list =
+            currentCategory === 'all'
+              ? ARTICLES
+              : ARTICLES.filter((a) => a.category === currentCategory);
+          return list.slice().sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
         }
 
         function renderPage(page) {
