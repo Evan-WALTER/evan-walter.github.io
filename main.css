@@ -375,7 +375,7 @@ body:has(.articles-page) .site-header .nav-toggle {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr min(26vw, 290px);
+  grid-template-columns: 1fr min(30vw, 340px);
   align-items: start;
   gap: clamp(2.5rem, 6vw, 5rem);
   padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(3rem, 6vw, 5rem);
@@ -1019,7 +1019,8 @@ h2 {
 
 .rail {
   position: relative;
-  overflow: hidden;
+  /* clip-path clips left/right overflow while allowing vertical overflow for shadows and hover lift */
+  clip-path: inset(-12px 0 -20px 0);
 }
 
 .rail-track {
@@ -1028,8 +1029,8 @@ h2 {
   grid-auto-flow: column;
   gap: var(--carousel-gap);
   overflow-x: auto;
-  padding: 0.25rem 0.25rem 1rem;
-  margin: -0.25rem;
+  padding: 0.8rem 0 1.4rem;
+  margin: -0.8rem 0 0;
   overscroll-behavior-x: contain;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -1060,8 +1061,8 @@ h2 {
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 24px 55px rgba(25, 31, 44, 0.16);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(25, 31, 44, 0.13);
 }
 
 .card img {
@@ -1349,7 +1350,7 @@ h2 {
 }
 
 .report-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
 
@@ -1382,7 +1383,7 @@ h2 {
 }
 
 .comment-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: 0 12px 36px rgba(13, 148, 136, 0.12);
 }
 
