@@ -55,7 +55,7 @@
             </p>
             <div class="hero-cta">
               <a class="btn btn-primary" href="#articles-list">Parcourir les articles</a>
-              <a class="btn btn-outline" href="index.html#articles">Retour au portfolio</a>
+              <a class="btn btn-ghost" href="index.html#articles">Retour au portfolio</a>
             </div>
           </div>
 
@@ -89,6 +89,12 @@
         </div>
 
         <div class="container">
+          <div
+            id="category-filter"
+            class="category-filter"
+            role="group"
+            aria-label="Filtrer par catégorie"
+          ></div>
           <div id="articles-grid" class="articles-grid" aria-live="polite"></div>
           <nav
             id="articles-pagination"
@@ -194,15 +200,23 @@
 
         const pageSize = 6;
         let currentPage = 1;
-        const totalPages = Math.max(1, Math.ceil(ARTICLES.length / pageSize));
+        let currentCategory = 'all';
+
+        function getFilteredArticles() {
+          return currentCategory === 'all'
+            ? ARTICLES
+            : ARTICLES.filter((a) => a.category === currentCategory);
+        }
 
         function renderPage(page) {
+          const filtered = getFilteredArticles();
+          const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
           const grid = document.getElementById('articles-grid');
           const count = document.querySelector('.articles-count');
           grid.innerHTML = '';
           const start = (page - 1) * pageSize;
           const end = start + pageSize;
-          const items = ARTICLES.slice(start, end);
+          const items = filtered.slice(start, end);
 
           items.forEach((a) => {
             const article = document.createElement('article');
@@ -263,21 +277,22 @@
           });
 
           if (count) {
-            const first = start + 1;
-            const last = Math.min(ARTICLES.length, end);
-            count.textContent = `Articles ${first}-${last} sur ${ARTICLES.length}`;
+            const first = filtered.length > 0 ? start + 1 : 0;
+            const last = Math.min(filtered.length, end);
+            const label = currentCategory === 'all' ? 'Articles' : currentCategory;
+            count.textContent = `${label} ${first}–${last} sur ${filtered.length}`;
           }
 
-          renderPagination();
+          renderPagination(totalPages);
         }
 
-        function renderPagination() {
+        function renderPagination(totalPages) {
           const nav = document.getElementById('articles-pagination');
           nav.innerHTML = '';
 
-          function goToPage(page) {
-            if (page === currentPage || page < 1 || page > totalPages) return;
-            currentPage = page;
+          function goToPage(p) {
+            if (p === currentPage || p < 1 || p > totalPages) return;
+            currentPage = p;
             renderPage(currentPage);
           }
 
@@ -312,7 +327,29 @@
           nav.appendChild(next);
         }
 
+        function renderCategories() {
+          const container = document.getElementById('category-filter');
+          if (!container) return;
+          const cats = ['Tous', ...new Set(ARTICLES.map((a) => a.category))];
+          container.innerHTML = '';
+          cats.forEach((cat) => {
+            const btn = document.createElement('button');
+            const isActive = cat === 'Tous' ? currentCategory === 'all' : cat === currentCategory;
+            btn.className = 'cat-btn' + (isActive ? ' active' : '');
+            btn.textContent = cat;
+            btn.type = 'button';
+            btn.addEventListener('click', () => {
+              currentCategory = cat === 'Tous' ? 'all' : cat;
+              currentPage = 1;
+              renderCategories();
+              renderPage(1);
+            });
+            container.appendChild(btn);
+          });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+          renderCategories();
           renderPage(currentPage);
         });
       })();

@@ -391,4 +391,16 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ── Barre de progression lecture ───────────────────────
+  const progressBar = document.getElementById('progress-bar');
+  if (progressBar) {
+    const updateProgress = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total <= 0) return;
+      progressBar.style.width = ((window.scrollY / total) * 100).toFixed(2) + '%';
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
 })();

@@ -24,6 +24,36 @@
     <meta name="theme-color" content="#0d9488" />
   </head>
   <body>
+    <!-- Barre de progression lecture -->
+    <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+
+    <!-- Ticker "EN DIRECT" -->
+    <div class="ticker-wrap" role="marquee" aria-label="Actualités récentes">
+      <div class="ticker-label" aria-hidden="true">
+        <span class="live-dot"></span>
+        EN DIRECT
+      </div>
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span class="ticker-item">JRI &amp; Monteur · neo TV · Paris / Nantes</span>
+          <span class="ticker-item">450+ articles publiés sur PSG.fr</span>
+          <span class="ticker-item">126+ vidéos produites</span>
+          <span class="ticker-item">JO Paris 2024 — reportage terrain</span>
+          <span class="ticker-item">Formé au CNJ 44 &amp; IEJ Paris — Master Sport</span>
+          <span class="ticker-item">Football · Volley-ball · Audiodescription</span>
+          <span class="ticker-item">FC Nantes · PSG · Neptunes Nantes · NRMV</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="ticker-item">JRI &amp; Monteur · neo TV · Paris / Nantes</span>
+          <span class="ticker-item">450+ articles publiés sur PSG.fr</span>
+          <span class="ticker-item">126+ vidéos produites</span>
+          <span class="ticker-item">JO Paris 2024 — reportage terrain</span>
+          <span class="ticker-item">Formé au CNJ 44 &amp; IEJ Paris — Master Sport</span>
+          <span class="ticker-item">Football · Volley-ball · Audiodescription</span>
+          <span class="ticker-item">FC Nantes · PSG · Neptunes Nantes · NRMV</span>
+        </div>
+      </div>
+    </div>
+
     <header class="site-header" role="banner">
       <div class="container header-grid">
         <a class="logo" href="#home" aria-label="Accueil">
@@ -53,9 +83,12 @@
       <section id="home" class="hero">
         <div class="container hero-grid">
           <div class="hero-content reveal">
-            <p class="eyebrow">Journaliste sportif - Terrain, TV, Réseaux</p>
-            <h1 class="hero-title">Evan WALTER</h1>
-            <p class="hero-subtitle">Journaliste Reporter d'Images et Monteur pour le média neo</p>
+            <p class="eyebrow">Journaliste sportif · Terrain · TV · Réseaux</p>
+            <h1 class="hero-title">
+              <span class="hero-title-line">EVAN</span>
+              <span class="hero-title-accent">WALTER</span>
+            </h1>
+            <p class="hero-subtitle"><strong>JRI &amp; Monteur</strong> pour le média neo</p>
             <p class="lead">
               Articles longs formats, interviews, formats sociaux et reportages vidéo pour raconter
               ce qui se joue avant, pendant et après le match.
@@ -66,55 +99,63 @@
             </div>
           </div>
 
-          <aside class="hero-aside reveal" aria-label="Portrait et chiffres clés">
-            <figure class="profile-figure">
-              <img
-                src="./images/portrait_ew.png"
-                alt="Portrait de Evan Walter"
-                width="640"
-                height="640"
-              />
-            </figure>
-            <ul class="stats">
-              <li><strong data-count="450">450</strong><span>Articles</span></li>
-              <li><strong data-count="126">126</strong><span>Vidéos</span></li>
-              <li><strong data-count="4">4</strong><span>Années</span></li>
-            </ul>
+          <aside class="hero-aside reveal" aria-label="Portrait">
+            <div class="profile-wrap">
+              <figure class="profile-figure">
+                <img
+                  src="./images/portrait_ew.png"
+                  alt="Portrait de Evan Walter"
+                  width="640"
+                  height="853"
+                />
+              </figure>
+            </div>
           </aside>
+        </div>
+
+        <!-- Stats strip pleine largeur -->
+        <div class="stats-strip-wrap">
+          <ul class="stats-strip container">
+            <li><strong data-count="450">450</strong><span>Articles</span></li>
+            <li><strong data-count="126">126</strong><span>Vidéos</span></li>
+            <li><strong data-count="4">4</strong><span>Années</span></li>
+          </ul>
         </div>
       </section>
 
       <section id="about" class="about reveal">
-        <div class="container section-grid">
-          <div class="section-heading">
-            <p class="eyebrow">Profil</p>
-            <h2>Journaliste sportif hybride : terrain, desk, vidéo.</h2>
-          </div>
+        <div class="container">
+          <div class="section-grid">
+            <div class="section-heading">
+              <p class="eyebrow">Profil</p>
+              <h2>Journaliste sportif hybride : terrain, desk, vidéo.</h2>
+            </div>
 
-          <div class="about-copy">
-            <p>
-              Journaliste généraliste et sportif, j'ai été formé au Centre Nantais de Journalisme
-              (CNJ) et à l'Institut Européen de Journalisme en Master Sport (IEJ). Journaliste
-              Reporter d'Images et Monteur pour neo (Paris/Nantes)
-            </p>
-            <div class="pill-grid" aria-label="Compétences">
-              <span>Reportages - Réseaux Sociaux</span>
-              <span>Reportages - Format TV</span>
-              <span>Interviews</span>
-              <span>Montage - Adobe / Final Cut</span>
-              <span>Desks</span>
-              <span>Articles Web / Print</span>
+            <div class="about-copy">
+              <p>
+                Journaliste généraliste et sportif, j'ai été formé au Centre Nantais de Journalisme
+                (CNJ) et à l'Institut Européen de Journalisme en Master Sport (IEJ). Journaliste
+                Reporter d'Images et Monteur pour neo (Paris/Nantes)
+              </p>
+              <div class="pill-grid" aria-label="Compétences">
+                <span>Reportages · Réseaux Sociaux</span>
+                <span>Reportages · Format TV</span>
+                <span>Interviews</span>
+                <span>Montage · Adobe / Final Cut</span>
+                <span>Desks</span>
+                <span>Articles Web / Print</span>
+                <span>Audiodescription</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div id="about-more" class="container more-panel">
-          <div class="timeline">
+          <!-- Workflow (toujours visible) -->
+          <div class="timeline" style="margin-top: clamp(2rem, 4vw, 3.5rem)">
             <article>
               <span>Préparation</span>
               <h3>Recherche d'angles</h3>
               <p>
-                Identification de thématiques en lien avec l’actualité, recherche d’angles originaux
+                Identification de thématiques en lien avec l'actualité, recherche d'angles originaux
                 et respect de la ligne éditoriale.
               </p>
             </article>
@@ -135,79 +176,82 @@
               </p>
             </article>
           </div>
-        </div>
 
-        <div id="partners" class="container more-panel" aria-label="Partenaires">
-          <div class="subsection-heading">
-            <h3>Partenaires</h3>
-          </div>
-
-          <div class="collection-grid partners-grid" aria-hidden="false">
-            <article class="compact-card">
-              <a
-                href="https://www.psg.fr"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Paris Saint-Germain"
-              >
-                <img src="./images/psg_logo.png" alt="Logo Paris Saint-Germain" loading="lazy" />
-              </a>
-            </article>
-
-            <article class="compact-card">
-              <a
-                href="https://neo.tv/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Neo TV"
-              >
-                <img src="./images/neo_logo.png" alt="Logo Neo TV" loading="lazy" />
-              </a>
-            </article>
-
-            <article class="compact-card">
-              <a
-                href="https://nantessport.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Nantes Sport"
-              >
-                <img src="./images/jns_logo.png" alt="Logo Nantes Sport" loading="lazy" />
-              </a>
-            </article>
-
-            <article class="compact-card">
-              <a
-                href="https://asaaudiodescription.wordpress.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="ASA Media"
-              >
-                <img src="./images/asa_logo.png" alt="Logo ASA" loading="lazy" />
-              </a>
-            </article>
-
-            <article class="compact-card">
-              <a
-                href="https://cnj44.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="CNJ 44"
-              >
-                <img src="./images/cnj44_logo.png" alt="Logo CNJ 44" loading="lazy" />
-              </a>
-            </article>
-
-            <article class="compact-card">
-              <a
-                href="https://iej.eu/campus/paris"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="IEJ Paris"
-              >
-                <img src="./images/iej_paris_logo.png" alt="Logo IEJ Paris" loading="lazy" />
-              </a>
-            </article>
+          <!-- Partenaires (toujours visible) -->
+          <div
+            id="partners"
+            aria-label="Partenaires"
+            style="
+              margin-top: clamp(2.5rem, 5vw, 4rem);
+              padding-top: clamp(2rem, 4vw, 3rem);
+              border-top: 1px solid var(--line);
+            "
+          >
+            <div class="subsection-heading">
+              <h3>Partenaires</h3>
+            </div>
+            <div class="collection-grid partners-grid">
+              <article class="compact-card">
+                <a
+                  href="https://www.psg.fr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Paris Saint-Germain"
+                >
+                  <img src="./images/psg_logo.png" alt="Logo Paris Saint-Germain" loading="lazy" />
+                </a>
+              </article>
+              <article class="compact-card">
+                <a
+                  href="https://neo.tv/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Neo TV"
+                >
+                  <img src="./images/neo_logo.png" alt="Logo Neo TV" loading="lazy" />
+                </a>
+              </article>
+              <article class="compact-card">
+                <a
+                  href="https://nantessport.fr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nantes Sport"
+                >
+                  <img src="./images/jns_logo.png" alt="Logo Nantes Sport" loading="lazy" />
+                </a>
+              </article>
+              <article class="compact-card">
+                <a
+                  href="https://asaaudiodescription.wordpress.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="ASA Media"
+                >
+                  <img src="./images/asa_logo.png" alt="Logo ASA" loading="lazy" />
+                </a>
+              </article>
+              <article class="compact-card">
+                <a
+                  href="https://cnj44.fr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="CNJ 44"
+                >
+                  <img src="./images/cnj44_logo.png" alt="Logo CNJ 44" loading="lazy" />
+                </a>
+              </article>
+              <article class="compact-card">
+                <a
+                  href="https://iej.eu/campus/paris"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="IEJ Paris"
+                >
+                  <img src="./images/iej_paris_logo.png" alt="Logo IEJ Paris" loading="lazy" />
+                </a>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -237,11 +281,40 @@
             >
               <span aria-hidden="true">›</span>
             </button>
-            <a class="btn btn-outline" href="articles.html">Voir plus</a>
+            <a class="btn btn-ghost" href="articles.html">Voir plus</a>
           </div>
         </div>
 
         <div class="container">
+          <!-- Article à la une -->
+          <div class="article-featured">
+            <div class="article-featured-img">
+              <img
+                src="https://media.psg.fr/image/upload/w_1921,c_fill,g_auto,ar_3:2/f_avif,q_75/visuel-quadruple-169_uxd8ih"
+                alt="Célébration du quadruple parisien"
+                loading="eager"
+              />
+            </div>
+            <div class="article-featured-body">
+              <span class="featured-badge">À la une</span>
+              <p class="meta">
+                <span>Football</span> · <time datetime="2025-06-08">8 juin 2025</time>
+              </p>
+              <h3>Un quadruple historique pour le Paris Saint-Germain</h3>
+              <p>
+                Une saison, quatre trophées : retour sur une performance collective majeure qui
+                inscrit le club parisien dans l'histoire du football français.
+              </p>
+              <a
+                class="btn btn-ink"
+                href="https://www.psg.fr/content/un-quadruple-historique-pour-le-paris-saint-germain"
+                target="_blank"
+                rel="noopener"
+                >Lire l'article</a
+              >
+            </div>
+          </div>
+
           <div
             class="article-carousel"
             data-carousel
@@ -417,7 +490,7 @@
             <h3>Vidéos réseaux sociaux</h3>
             <div class="section-actions">
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-prev="shorts-track"
                 aria-controls="shorts-track"
@@ -426,7 +499,7 @@
                 <span aria-hidden="true">‹</span>
               </button>
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-next="shorts-track"
                 aria-controls="shorts-track"
@@ -467,14 +540,16 @@
                       <span aria-hidden="true">▶</span>
                     </button>
                   </div>
-                  <h4>Reportage court devant l'Assemblée nationale</h4>
-                  <a
-                    class="video-fallback"
-                    href="https://www.youtube.com/shorts/7XzrwSlrxM0"
-                    target="_blank"
-                    rel="noopener"
-                    >Ouvrir sur YouTube</a
-                  >
+                  <div class="short-card-body">
+                    <h4>Reportage court devant l'Assemblée nationale</h4>
+                    <a
+                      class="video-fallback"
+                      href="https://www.youtube.com/shorts/7XzrwSlrxM0"
+                      target="_blank"
+                      rel="noopener"
+                      >Ouvrir sur YouTube</a
+                    >
+                  </div>
                 </article>
 
                 <article class="short-card" data-carousel-item>
@@ -497,14 +572,16 @@
                       <span aria-hidden="true">▶</span>
                     </button>
                   </div>
-                  <h4>Le nouveau maillot Capitolium</h4>
-                  <a
-                    class="video-fallback"
-                    href="https://www.youtube.com/shorts/28LAye9Mpcw"
-                    target="_blank"
-                    rel="noopener"
-                    >Ouvrir sur YouTube</a
-                  >
+                  <div class="short-card-body">
+                    <h4>Le nouveau maillot Capitolium</h4>
+                    <a
+                      class="video-fallback"
+                      href="https://www.youtube.com/shorts/28LAye9Mpcw"
+                      target="_blank"
+                      rel="noopener"
+                      >Ouvrir sur YouTube</a
+                    >
+                  </div>
                 </article>
 
                 <article class="short-card" data-carousel-item>
@@ -527,14 +604,16 @@
                       <span aria-hidden="true">▶</span>
                     </button>
                   </div>
-                  <h4>Reportage court : l’histoire de la maison Petrossian</h4>
-                  <a
-                    class="video-fallback"
-                    href="https://www.youtube.com/shorts/HNdbooxY8VY"
-                    target="_blank"
-                    rel="noopener"
-                    >Ouvrir sur YouTube</a
-                  >
+                  <div class="short-card-body">
+                    <h4>Reportage court : l’histoire de la maison Petrossian</h4>
+                    <a
+                      class="video-fallback"
+                      href="https://www.youtube.com/shorts/HNdbooxY8VY"
+                      target="_blank"
+                      rel="noopener"
+                      >Ouvrir sur YouTube</a
+                    >
+                  </div>
                 </article>
 
                 <article class="short-card" data-carousel-item>
@@ -557,44 +636,16 @@
                       <span aria-hidden="true">▶</span>
                     </button>
                   </div>
-                  <h4>Haroun nous a dévoilé son coin de France préféré</h4>
-                  <a
-                    class="video-fallback"
-                    href="https://www.youtube.com/watch?v=Na2zaCiiEYk"
-                    target="_blank"
-                    rel="noopener"
-                    >Ouvrir sur YouTube</a
-                  >
-                </article>
-
-                <article class="short-card" data-carousel-item>
-                  <div
-                    class="video-embed video-embed-portrait"
-                    data-video-id="U5zGNkrQs1A"
-                    data-title="Petit cours d'expressions corses au Salon de l’agriculture 📚"
-                    data-url="https://www.youtube.com/watch?v=U5zGNkrQs1A"
-                  >
-                    <img
-                      src="./images/short_corse.png"
-                      alt="Miniature de la vidéo Petit cours d'expressions corses au Salon de l’agriculture 📚"
-                      loading="lazy"
-                    />
-                    <button
-                      class="play-overlay"
-                      type="button"
-                      aria-label="Lire la vidéo Petit cours d'expressions corses au Salon de l’agriculture 📚"
+                  <div class="short-card-body">
+                    <h4>Haroun nous a dévoilé son coin de France préféré</h4>
+                    <a
+                      class="video-fallback"
+                      href="https://www.youtube.com/watch?v=Na2zaCiiEYk"
+                      target="_blank"
+                      rel="noopener"
+                      >Ouvrir sur YouTube</a
                     >
-                      <span aria-hidden="true">▶</span>
-                    </button>
                   </div>
-                  <h4>Petit cours d'expressions corses au Salon de l’agriculture 📚</h4>
-                  <a
-                    class="video-fallback"
-                    href="https://www.youtube.com/watch?v=U5zGNkrQs1A"
-                    target="_blank"
-                    rel="noopener"
-                    >Ouvrir sur YouTube</a
-                  >
                 </article>
               </div>
             </div>
@@ -610,7 +661,7 @@
             <h3>Reportages sportifs</h3>
             <div class="section-actions">
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-prev="reports-track"
                 aria-controls="reports-track"
@@ -619,7 +670,7 @@
                 <span aria-hidden="true">‹</span>
               </button>
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-next="reports-track"
                 aria-controls="reports-track"
@@ -845,7 +896,7 @@
             <h3>Commentaires</h3>
             <div class="section-actions">
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-prev="comments-track"
                 aria-controls="comments-track"
@@ -854,7 +905,7 @@
                 <span aria-hidden="true">‹</span>
               </button>
               <button
-                class="icon-btn carousel-control"
+                class="icon-btn icon-btn-dk carousel-control"
                 type="button"
                 data-carousel-next="comments-track"
                 aria-controls="comments-track"
@@ -875,7 +926,7 @@
           >
             <div class="rail" aria-label="Vidéos commentaire">
               <div id="comments-track" class="rail-track comments-track" tabindex="0">
-                <article class="report-card" data-carousel-item>
+                <article class="comment-card" data-carousel-item>
                   <div class="video-frame">
                     <div
                       class="video-embed video-embed-landscape"
@@ -911,7 +962,7 @@
                   </div>
                 </article>
 
-                <article class="report-card" data-carousel-item>
+                <article class="comment-card" data-carousel-item>
                   <div class="video-frame">
                     <div
                       class="video-embed video-embed-landscape"
@@ -947,7 +998,7 @@
                   </div>
                 </article>
 
-                <article class="report-card" data-carousel-item>
+                <article class="comment-card" data-carousel-item>
                   <div class="video-frame">
                     <div
                       class="video-embed video-embed-landscape"
@@ -1001,32 +1052,50 @@
               Disponible pour piges, formats vidéo, reportages terrain et contenus éditoriaux autour
               du sport.
             </p>
+
+            <div class="contact-actions" aria-label="Moyens de contact">
+              <button
+                id="copy-email"
+                class="btn btn-primary"
+                type="button"
+                data-email="evan.walter.pro@gmail.com"
+              >
+                Copier l'adresse mail
+              </button>
+              <a
+                class="linkedin-link"
+                href="https://fr.linkedin.com/in/evanwltr"
+                target="_blank"
+                rel="noopener"
+                aria-label="Ouvrir LinkedIn"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.38 4.27 5.47v6.27ZM5.32 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.54V9H7.1v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z"
+                  />
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+              <p id="copy-status" class="form-status" aria-live="polite"></p>
+            </div>
           </div>
 
-          <div class="contact-actions" aria-label="Moyens de contact">
-            <button
-              id="copy-email"
-              class="btn btn-primary"
-              type="button"
-              data-email="evan.walter.pro@gmail.com"
-            >
-              Copier l'adresse mail
-            </button>
-            <a
-              class="linkedin-link"
-              href="https://fr.linkedin.com/in/evanwltr"
-              target="_blank"
-              rel="noopener"
-              aria-label="Ouvrir LinkedIn"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path
-                  d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.38 4.27 5.47v6.27ZM5.32 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.54V9H7.1v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z"
-                />
-              </svg>
-              <span>LinkedIn</span>
-            </a>
-            <p id="copy-status" class="form-status" aria-live="polite"></p>
+          <!-- Panneau éditorial droit -->
+          <div class="contact-panel" aria-hidden="true">
+            <div class="contact-fact">
+              <span class="contact-fact-label">Disponibilité</span>
+              <p>
+                Piges, formats vidéo, reportages terrain et contenus éditoriaux autour du sport.
+              </p>
+            </div>
+            <div class="contact-fact">
+              <span class="contact-fact-label">Formation</span>
+              <p>CNJ 44 — Nantes · IEJ Paris — Master Sport</p>
+            </div>
+            <div class="contact-fact">
+              <span class="contact-fact-label">Expérience</span>
+              <p>JRI &amp; Monteur — neo · PSG.fr · Nantes Sport · ASA Audiodescription</p>
+            </div>
           </div>
         </div>
       </section>
