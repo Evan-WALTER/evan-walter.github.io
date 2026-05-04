@@ -854,6 +854,49 @@ h2 {
   font-weight: 500;
 }
 
+/* Fade mobile infos éditoriales (entre titre et boutons) ── */
+.contact-carousel-mobile {
+  display: none;
+  margin: 1.2rem 0 1.6rem;
+}
+
+.contact-carousel-slides {
+  display: grid;
+  grid-template-areas: 'slide';
+}
+
+.contact-carousel-slide {
+  grid-area: slide;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.contact-carousel-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  user-select: auto;
+}
+
+.contact-carousel-slide .contact-fade-label {
+  display: block;
+  margin: 0 0 0.25rem;
+  color: var(--teal);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-carousel-slide p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
 /* Icon-btn variante sombre (section vidéos) ────────────── */
 .icon-btn-dk {
   border-color: var(--line);
@@ -1048,8 +1091,8 @@ h2 {
 
 .rail {
   position: relative;
-  /* clip-path clips left/right overflow while allowing vertical overflow for shadows and hover lift */
-  clip-path: inset(-12px 0 -20px 0);
+  clip-path: inset(-12px 0 -20px 0 round var(--r-lg));
+  border-radius: var(--r-lg);
 }
 
 .rail-track {
@@ -1058,7 +1101,7 @@ h2 {
   grid-auto-flow: column;
   gap: var(--carousel-gap);
   overflow-x: auto;
-  padding: 0.8rem 0 0.5rem;
+  padding: 0.8rem 0.5rem 0.5rem;
   margin: -0.8rem 0 0;
   overscroll-behavior-x: contain;
   scroll-behavior: smooth;
@@ -1667,6 +1710,9 @@ button:focus-visible {
   .contact-panel {
     display: none;
   }
+  .contact-carousel-mobile {
+    display: block;
+  }
 }
 
 @media (max-width: 980px) {
@@ -1792,7 +1838,7 @@ button:focus-visible {
   }
 
   .article-carousel {
-    --carousel-card-width: 80vw;
+    --carousel-card-width: 100%;
   }
 
   .video-carousel {

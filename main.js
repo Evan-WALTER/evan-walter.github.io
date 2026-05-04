@@ -403,4 +403,22 @@
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
   }
+
+  // ── Fade mobile contact (Disponibilité / Formations / Expériences) ──
+  const contactCarouselMobile = document.querySelector('.contact-carousel-mobile');
+  if (contactCarouselMobile) {
+    const slides = $$('.contact-carousel-slide', contactCarouselMobile);
+    let current = 0;
+    let mobileTimer = null;
+
+    const showSlide = (index) => {
+      slides[current].classList.remove('is-active');
+      current = ((index % slides.length) + slides.length) % slides.length;
+      slides[current].classList.add('is-active');
+    };
+
+    if (!reducedMotion) {
+      mobileTimer = window.setInterval(() => showSlide(current + 1), 3500);
+    }
+  }
 })();
