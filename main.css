@@ -1093,6 +1093,8 @@ h2 {
   position: relative;
   clip-path: inset(-12px 0 -20px 0 round var(--r-lg));
   border-radius: var(--r-lg);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .rail-track {
@@ -1106,6 +1108,7 @@ h2 {
   overscroll-behavior-x: contain;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.5rem;
   scrollbar-width: none;
 }
 
