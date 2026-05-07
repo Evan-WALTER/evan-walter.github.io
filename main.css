@@ -509,6 +509,15 @@ h2 {
   box-shadow: 0 12px 32px rgba(214, 48, 49, 0.45);
 }
 
+.btn-primary.copied,
+.btn-primary.copied:hover {
+  background: var(--teal);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.4);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
 .btn-outline {
   border-color: rgba(17, 24, 39, 0.2);
   background: transparent;

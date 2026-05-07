@@ -340,20 +340,19 @@
   const copyButton = $('#copy-email');
   if (copyButton) {
     const originalText = copyButton.textContent;
-    const originalBg = copyButton.style.backgroundColor || '';
     let copyTimer = null;
 
-    const flashButton = (message, color = 'var(--teal)') => {
+    const flashButton = (message) => {
       if (copyTimer) {
         clearTimeout(copyTimer);
         copyTimer = null;
       }
       if (copyButton) {
         copyButton.textContent = '✓ Copié !';
-        copyButton.style.backgroundColor = color;
+        copyButton.classList.add('copied');
         copyTimer = window.setTimeout(() => {
           copyButton.textContent = originalText;
-          copyButton.style.backgroundColor = originalBg;
+          copyButton.classList.remove('copied');
           copyTimer = null;
         }, 2000);
       }
@@ -377,9 +376,9 @@
           document.execCommand('copy');
           document.body.removeChild(temp);
         }
-        flashButton('Adresse copiée', 'var(--teal)');
+        flashButton('Adresse copiée');
       } catch (error) {
-        flashButton('Erreur lors de la copie', 'var(--red)');
+        flashButton('Erreur lors de la copie');
       }
     });
   }
