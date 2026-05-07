@@ -496,6 +496,8 @@ h2 {
 .btn {
   padding: 0.72rem 1rem;
   border: 1px solid transparent;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-primary {
@@ -510,7 +512,8 @@ h2 {
 }
 
 .btn-primary.copied,
-.btn-primary.copied:hover {
+.btn-primary.copied:hover,
+.btn-primary.copied:focus-visible {
   background: var(--teal);
   box-shadow: 0 8px 24px rgba(13, 148, 136, 0.4);
   transition:
@@ -2200,7 +2203,7 @@ button:focus-visible {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    justify-content: flex-start;
+    justify-content: safe center;
     padding-bottom: 2px;
   }
 
