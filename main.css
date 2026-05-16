@@ -225,10 +225,7 @@ body:has(.articles-page) .site-header .menu a:hover {
   color: var(--ink);
   background: rgba(13, 148, 136, 0.1);
 }
-body:has(.articles-page) .site-header .nav-toggle {
-  border-color: var(--line);
-  color: var(--ink);
-}
+
 
 .header-grid {
   display: flex;
@@ -405,13 +402,7 @@ body:has(.articles-page) .site-header .nav-toggle {
 }
 
 /* On Articles page the header is light; ensure nav-toggle text becomes white when open */
-body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"],
-body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"]:focus-visible,
-body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"]:active {
-  background: var(--red-2);
-  color: var(--white);
-  border-radius: var(--radius);
-}
+
 
 .hero {
   position: relative;
