@@ -1511,7 +1511,7 @@ h2 {
   align-items: center;
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  background: rgba(13, 148, 136, 0.03);
+  background: var(--paper-2);
   box-shadow: 0 4px 18px rgba(17, 24, 39, 0.06);
   transition:
     transform 0.24s,
@@ -1520,7 +1520,7 @@ h2 {
 
 .comment-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 12px 36px rgba(17, 24, 39, 0.12);
 }
 
 .comment-card .meta {
