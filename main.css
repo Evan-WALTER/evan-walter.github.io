@@ -368,6 +368,51 @@ body:has(.articles-page) .site-header .nav-toggle {
   transform: translateY(-1px);
 }
 
+/* Supprimer le surlignage tactile mobile et harmoniser focus/active
+   pour le bouton Menu (nav-toggle), CV et les flèches (.icon-btn) */
+.nav-toggle,
+.nav-cv,
+.icon-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-toggle:focus-visible,
+.nav-toggle:active,
+.nav-cv:focus-visible,
+.nav-cv:active,
+.icon-btn:focus-visible,
+.icon-btn:not([disabled]):active,
+.icon-btn:not([aria-disabled="true"]):active {
+  outline: none;
+  border-radius: var(--radius);
+}
+
+.nav-toggle:active,
+.nav-cv:active,
+.icon-btn:not([disabled]):active,
+.icon-btn:not([aria-disabled="true"]):active {
+  background: var(--red-2);
+  color: var(--white);
+}
+
+/* Keep nav-toggle text white when menu is open (aria-expanded) */
+.nav-toggle[aria-expanded="true"],
+.nav-toggle[aria-expanded="true"]:focus-visible,
+.nav-toggle[aria-expanded="true"]:active {
+  background: var(--red-2);
+  color: var(--white);
+  border-radius: var(--radius);
+}
+
+/* On Articles page the header is light; ensure nav-toggle text becomes white when open */
+body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"],
+body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"]:focus-visible,
+body:has(.articles-page) .site-header .nav-toggle[aria-expanded="true"]:active {
+  background: var(--red-2);
+  color: var(--white);
+  border-radius: var(--radius);
+}
+
 .hero {
   position: relative;
   background: var(--paper-2);
@@ -1094,6 +1139,11 @@ h2 {
 .icon-btn:disabled {
   cursor: default;
   opacity: 0.38;
+}
+
+.icon-btn[disabled],
+.icon-btn[aria-disabled="true"] {
+  pointer-events: none;
 }
 
 .article-carousel {
@@ -2157,6 +2207,23 @@ button:focus-visible {
   border-color: var(--red);
   background: rgba(214, 48, 49, 0.07);
   color: var(--red);
+}
+
+/* Harmonisation focus/active pour les boutons de catégorie (mobile) */
+.cat-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cat-btn:focus-visible,
+.cat-btn:active {
+  outline: none;
+  border-radius: 999px;
+}
+
+.cat-btn:active {
+  background: rgba(214, 48, 49, 0.07);
+  color: var(--red);
+  border-color: var(--red);
 }
 
 @media (max-width: 980px) {
