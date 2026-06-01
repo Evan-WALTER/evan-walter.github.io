@@ -308,27 +308,33 @@
         return;
       }
 
-      const params = new URLSearchParams({
-        autoplay: '1',
-        enablejsapi: '1',
-        rel: '0',
-        modestbranding: '1',
-        playsinline: '1',
-      });
-
-      if (window.location.origin && window.location.origin !== 'null') {
-        params.set('origin', window.location.origin);
-      }
+      const isInstagram = videoUrl && videoUrl.includes('instagram.com');
 
       const iframe = document.createElement('iframe');
       iframe.title = title;
-      iframe.allow =
-        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       iframe.loading = 'eager';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-      iframe.src = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+
+      if (isInstagram) {
+        iframe.src = `https://www.instagram.com/p/${videoId}/embed/`;
+        iframe.allow = 'encrypted-media';
+      } else {
+        const params = new URLSearchParams({
+          autoplay: '1',
+          enablejsapi: '1',
+          rel: '0',
+          modestbranding: '1',
+          playsinline: '1',
+        });
+        if (window.location.origin && window.location.origin !== 'null') {
+          params.set('origin', window.location.origin);
+        }
+        iframe.src = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+        iframe.allow =
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      }
 
       embed.replaceChildren(iframe);
       iframe.focus();
