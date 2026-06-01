@@ -226,7 +226,6 @@ body:has(.articles-page) .site-header .menu a:hover {
   background: rgba(13, 148, 136, 0.1);
 }
 
-
 .header-grid {
   display: flex;
   align-items: center;
@@ -379,7 +378,7 @@ body:has(.articles-page) .site-header .menu a:hover {
 .nav-cv:active,
 .icon-btn:focus-visible,
 .icon-btn:not([disabled]):active,
-.icon-btn:not([aria-disabled="true"]):active {
+.icon-btn:not([aria-disabled='true']):active {
   outline: none;
   border-radius: var(--radius);
 }
@@ -387,22 +386,21 @@ body:has(.articles-page) .site-header .menu a:hover {
 .nav-toggle:active,
 .nav-cv:active,
 .icon-btn:not([disabled]):active,
-.icon-btn:not([aria-disabled="true"]):active {
+.icon-btn:not([aria-disabled='true']):active {
   background: var(--red-2);
   color: var(--white);
 }
 
 /* Keep nav-toggle text white when menu is open (aria-expanded) */
-.nav-toggle[aria-expanded="true"],
-.nav-toggle[aria-expanded="true"]:focus-visible,
-.nav-toggle[aria-expanded="true"]:active {
+.nav-toggle[aria-expanded='true'],
+.nav-toggle[aria-expanded='true']:focus-visible,
+.nav-toggle[aria-expanded='true']:active {
   background: var(--red-2);
   color: var(--white);
   border-radius: var(--radius);
 }
 
 /* On Articles page the header is light; ensure nav-toggle text becomes white when open */
-
 
 .hero {
   position: relative;
@@ -1133,7 +1131,7 @@ h2 {
 }
 
 .icon-btn[disabled],
-.icon-btn[aria-disabled="true"] {
+.icon-btn[aria-disabled='true'] {
   pointer-events: none;
 }
 
@@ -1431,6 +1429,33 @@ h2 {
 .play-overlay:hover span {
   background: var(--red);
   transform: translateX(2px) scale(1.12);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+.play-overlay--instagram span {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  transform: none;
+}
+
+.play-overlay--instagram:hover span {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  transform: scale(1.12);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.32),
     0 0 0 6px rgba(255, 255, 255, 0.3);
