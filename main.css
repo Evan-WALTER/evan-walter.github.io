@@ -1227,25 +1227,32 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
   margin-top: 0.35rem;
 }
 
 .carousel-status {
+  flex-shrink: 0;
   margin: 0;
+  white-space: nowrap;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 700;
 }
 
 .carousel-dots {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.45rem;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: nowrap;
 }
 
 .carousel-dot {
-  width: 26px;
+  width: 22px;
   height: 8px;
   padding: 0;
   border: 0;
@@ -1258,7 +1265,7 @@ h2 {
 }
 
 .carousel-dot[aria-current] {
-  width: 38px;
+  width: 34px;
   background: var(--teal);
 }
 
